@@ -6,6 +6,8 @@ export type AssetDefinition = {
   id: AssetId;
   name: string;
   runtimePath: `/models/optimized/${string}.glb`;
+  aircraftProfileId?: string;
+  meshHintNames?: string[];
   colliderType: ColliderType;
   scale: [number, number, number];
   position: [number, number, number];
@@ -18,6 +20,8 @@ export const assetManifest: Record<AssetId, AssetDefinition> = {
     id: 'tiny_test_asset',
     name: 'Tiny Test Asset',
     runtimePath: '/models/optimized/tiny_test_asset.glb',
+    aircraftProfileId: 'generic_trainer',
+    meshHintNames: ['trainer', 'generic_trainer'],
     colliderType: 'box',
     scale: [1, 1, 1],
     position: [2, 0, -2],

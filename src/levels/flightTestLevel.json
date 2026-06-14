@@ -1,0 +1,21 @@
+{
+  "id": "flight_test",
+  "name": "Flight Test Range",
+  "aircraftProfileId": "generic_trainer",
+  "spawn": {
+    "position": [0, 260, 0],
+    "rotationEulerDeg": [0, 0, 0],
+    "initialSpeedMps": 42
+  },
+  "environment": {
+    "groundAltitudeM": 0,
+    "windMps": [0, 0, 0],
+    "turbulenceIntensity": 0
+  },
+  "visual": {
+    "groundSize": 4000,
+    "gridSize": 200,
+    "skyColor": "#87b8e8",
+    "horizonColor": "#d7e7f5"
+  }
+}

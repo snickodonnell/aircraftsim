@@ -55,3 +55,145 @@ body {
   font-size: 12px;
   color: #cbd5e1;
 }
+
+.aircraft-hud {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  width: min(360px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid rgb(226 232 240 / 0.24);
+  border-radius: 8px;
+  color: #f8fafc;
+  background: rgb(15 23 42 / 0.68);
+  box-shadow: 0 12px 32px rgb(15 23 42 / 0.28);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.aircraft-hud__title {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.aircraft-hud__grid {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 4px 10px;
+  font-size: 12px;
+}
+
+.aircraft-hud__grid span {
+  color: #cbd5e1;
+}
+
+.aircraft-hud__grid strong {
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.aircraft-hud__hint {
+  margin-top: 10px;
+  color: #dbeafe;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.aircraft-control-panel {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  width: 156px;
+  padding: 10px;
+  border: 1px solid rgb(226 232 240 / 0.24);
+  border-radius: 8px;
+  color: #f8fafc;
+  background: rgb(15 23 42 / 0.62);
+  box-shadow: 0 12px 32px rgb(15 23 42 / 0.24);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.aircraft-control-panel__label {
+  width: 100%;
+  color: #dbeafe;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.aircraft-control-panel__status {
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.aircraft-yoke {
+  position: relative;
+  width: 116px;
+  height: 116px;
+  border: 2px solid rgb(191 219 254 / 0.9);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, rgb(14 165 233 / 0.18), transparent 58%),
+    rgb(15 23 42 / 0.4);
+}
+
+.aircraft-yoke__axis {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgb(226 232 240 / 0.28);
+  transform: translate(-50%, -50%);
+}
+
+.aircraft-yoke__axis--horizontal {
+  width: 84px;
+  height: 1px;
+}
+
+.aircraft-yoke__axis--vertical {
+  width: 1px;
+  height: 84px;
+}
+
+.aircraft-yoke__cursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  transition: transform 80ms linear;
+}
+
+.aircraft-yoke__cursor::before,
+.aircraft-yoke__cursor::after {
+  position: absolute;
+  content: "";
+  background: #f8fafc;
+}
+
+.aircraft-yoke__cursor::before {
+  width: 24px;
+  height: 2px;
+}
+
+.aircraft-yoke__cursor::after {
+  width: 2px;
+  height: 24px;
+}
+
+.aircraft-yoke__cursor span {
+  width: 7px;
+  height: 7px;
+  border: 2px solid #facc15;
+  border-radius: 50%;
+  background: #0f172a;
+}

@@ -35,7 +35,23 @@ npm run preview
 npm run typecheck
 ```
 
-The first scene is intentionally small: a Canvas, lighting, Rapier physics, a ground plane, one static obstacle, a keyboard-controlled placeholder player, and a follow camera.
+The default scene is now a flight-test range: a data-driven generic trainer aircraft, simple geometry visual skin, derivative-based custom aerodynamic simulation, chase camera, yoke indicator, and debug HUD.
+
+Flight controls:
+
+- Click canvas = capture mouse.
+- Mouse down/up = pitch up/down, like a yoke.
+- Mouse left/right = roll.
+- `W/S` = throttle.
+- `A/D` = rudder.
+- `Q/E` = roll assist.
+- Arrow keys = alternate pitch/roll.
+- `R` = reset.
+- `H` = HUD.
+- `C` = camera mode.
+
+The aircraft mesh is only visual. Flight behavior comes from `src/sim/aero/aircraftProfiles.ts`, especially the aircraft stability derivatives and control-surface limits.
+The bottom-right yoke indicator shows current pitch/roll input and is the first piece of the aircraft control HUD.
 
 ## Dry-Run Asset Pipeline
 
