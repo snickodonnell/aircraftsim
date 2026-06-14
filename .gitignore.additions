@@ -1,0 +1,18 @@
+# Local environment secrets
+.env
+.env.local
+.env.*.local
+
+# Generated heavy assets may be ignored initially if desired.
+# Uncomment after deciding whether to version generated assets.
+# public/models/raw/*.glb
+# public/models/cleaned/*.glb
+# public/models/optimized/*.glb
+# public/models/**/*.fbx
+# public/models/**/*.obj
+# public/models/**/*.blend
+
+# Common build artifacts
+node_modules/
+dist/
+.vite/

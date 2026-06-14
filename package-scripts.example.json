@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "meshy:create": "tsx scripts/meshy/create-image-to-3d.ts",
+    "meshy:image-to-3d": "tsx scripts/meshy/create-image-to-3d.ts",
+    "meshy:multi-image-to-3d": "tsx scripts/meshy/create-multi-image-to-3d.ts",
+    "meshy:poll": "tsx scripts/meshy/poll-task.ts",
+    "meshy:download": "tsx scripts/meshy/download-model.ts",
+    "asset:inspect": "tsx scripts/assets/inspect-glb.ts",
+    "asset:optimize": "tsx scripts/assets/optimize-glb.ts",
+    "asset:clean": "tsx scripts/assets/run-blender-clean.ts",
+    "asset:build": "tsx scripts/assets/build-asset.ts",
+    "asset:validate": "tsx scripts/assets/validate-asset-paths.ts",
+    "asset:batch-clean": "blender -b --python scripts/blender/batch_clean.py --"
+  }
+}
