@@ -40,8 +40,8 @@ The default scene is now a flight-test range: a data-driven generic trainer airc
 Flight controls:
 
 - Click canvas = capture mouse.
-- Mouse down/up = pitch up/down, like a yoke.
-- Mouse left/right = roll.
+- Mouse down/up = pitch up/down.
+- Mouse left/right = roll right/left.
 - `W/S` = throttle.
 - `A/D` = rudder.
 - `Q/E` = roll assist.

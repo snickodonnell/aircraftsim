@@ -8,7 +8,8 @@ Click the canvas to request pointer lock. While pointer locked:
 
 - Mouse down = pitch up, like pulling back on a yoke.
 - Mouse up = pitch down.
-- Mouse left/right = roll.
+- Mouse left = roll right.
+- Mouse right = roll left.
 - `Esc` releases pointer lock through the browser.
 
 Keyboard controls still work without pointer lock.
@@ -50,7 +51,7 @@ The bottom-right yoke indicator shows pitch and roll intent:
 
 - Center = neutral controls.
 - Crosshair right/left = roll right/left.
-- Crosshair down = pitch up, matching the yoke-style mouse behavior.
+- Crosshair down = pitch up.
 - Crosshair up = pitch down.
 - Roll is tuned with a very small deadzone and a low-end response curve so small horizontal displacement produces an aileron response, while the aircraft profile still determines the final roll rate and damping.
 

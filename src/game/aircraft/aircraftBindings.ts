@@ -18,6 +18,7 @@ export type AircraftInputConfig = {
   mouseSensitivityX: number;
   mouseSensitivityY: number;
   invertPitch: boolean;
+  invertRoll: boolean;
   keyboardPitchRate: number;
   keyboardRollRate: number;
   keyboardYawRate: number;
@@ -52,6 +53,7 @@ export const defaultAircraftInputConfig: AircraftInputConfig = {
   mouseSensitivityX: 0.0025,
   mouseSensitivityY: 0.002,
   invertPitch: false,
+  invertRoll: true,
   keyboardPitchRate: 2.4,
   keyboardRollRate: 2.8,
   keyboardYawRate: 2.6,

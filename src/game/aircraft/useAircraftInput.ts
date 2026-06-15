@@ -178,7 +178,8 @@ export function useAircraftInput(
         return;
       }
       const pitchSign = config.invertPitch ? -1 : 1;
-      desiredRef.current.roll += event.movementX * config.mouseSensitivityX;
+      const rollSign = config.invertRoll ? -1 : 1;
+      desiredRef.current.roll += event.movementX * config.mouseSensitivityX * rollSign;
       desiredRef.current.pitch += event.movementY * config.mouseSensitivityY * pitchSign;
       mouseMotionThisFrameRef.current += Math.hypot(event.movementX, event.movementY);
       desiredRef.current.roll = MathUtils.clamp(desiredRef.current.roll, -1, 1);
