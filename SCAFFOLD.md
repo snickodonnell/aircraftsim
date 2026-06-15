@@ -43,6 +43,8 @@ Before editing code, read these files in order:
 11. `docs/10_REFERENCE_IMAGE_PROMPTS.md` — 2D reference prompt templates.
 12. `docs/11_ONE_PROMPT_SETUP.md` — single prompt the user can paste into Codex.
 13. `docs/12_ACCEPTANCE_CHECKLIST.md` — final completion criteria.
+14. `docs/aircraft-end-to-end-asset-workflow.md` — aircraft workflow pointer.
+15. `docs/docs/aircraft-end-to-end-asset-workflow.md` — full aircraft 2D reference → Meshy → Blender → optimized GLB → profile mapping workflow.
 
 ---
 
@@ -157,6 +159,31 @@ This scaffold is for a browser game. Optimize for:
 - repeatable pipeline
 
 Do not optimize for film-quality assets.
+
+### Aircraft asset generation workflow
+
+Before generating, cleaning, optimizing, or wiring any aircraft model, Codex must read and follow:
+
+```txt
+docs/aircraft-end-to-end-asset-workflow.md
+docs/docs/aircraft-end-to-end-asset-workflow.md
+```
+
+This aircraft-specific workflow overrides generic single-object asset examples whenever the asset is an aircraft.
+
+Required aircraft-specific rules:
+
+- Do not make a live Meshy call until the user explicitly approves it.
+- Do not batch-generate aircraft unless explicitly instructed.
+- Use a stable lowercase snake-case `aircraftId`.
+- Store source images under `public/images/references/aircraft/<aircraftId>/`.
+- Store raw, cleaned, and optimized aircraft models under `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`.
+- Ensure the cleaned visual model follows the project aircraft frame: `+X` right wing, `+Y` up, `-Z` nose/forward.
+- Save Meshy metadata, Blender cleanup reports, glTF inspection reports, and asset metadata next to the generated aircraft files.
+- Wire runtime visuals through an aircraft asset manifest or the existing project equivalent.
+- Map the visual model to `aircraftProfileId`; the mesh must not determine flight physics.
+- If creating or updating an aircraft profile, label it as `real_aircraft`, `inspired_by_real_aircraft`, or `generic_class` and record sources, assumptions, confidence, and game-tuning notes.
+- Do not let the 3D asset pipeline modify the aerodynamics engine architecture.
 
 ---
 

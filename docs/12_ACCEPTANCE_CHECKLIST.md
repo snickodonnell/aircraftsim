@@ -100,6 +100,26 @@ Codex must verify this checklist before considering the scaffold complete.
 [ ] docs/ explains GLB optimization
 [ ] docs/ explains asset standards
 [ ] docs/ includes one-prompt setup
+[ ] docs/aircraft-end-to-end-asset-workflow.md points to the aircraft workflow
+[ ] docs/docs/aircraft-end-to-end-asset-workflow.md defines the full aircraft model workflow
+```
+
+## Aircraft asset workflow
+
+Before claiming any generated aircraft is complete:
+
+```txt
+[ ] Source image is under public/images/references/aircraft/<aircraftId>/
+[ ] Raw GLB and Meshy metadata are under public/models/raw/aircraft/<aircraftId>/
+[ ] Cleaned GLB and Blender cleanup report are under public/models/cleaned/aircraft/<aircraftId>/
+[ ] Optimized GLB, glTF report, and asset metadata are under public/models/optimized/aircraft/<aircraftId>/
+[ ] Runtime manifest maps the visual asset to aircraftProfileId
+[ ] Aircraft profile exists or is intentionally mapped to an existing profile
+[ ] Profile mode is recorded as real_aircraft, inspired_by_real_aircraft, or generic_class
+[ ] Profile sources, assumptions, confidence, and tuning notes are recorded
+[ ] Mesh geometry is not used as aerodynamic truth
+[ ] Visual nose is oriented along aircraft local -Z
+[ ] Build and tests pass
 ```
 
 ## Final manual notes

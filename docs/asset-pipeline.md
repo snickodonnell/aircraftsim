@@ -1,5 +1,14 @@
 # Asset Pipeline
 
+For aircraft assets, read and follow the aircraft-specific workflow before using the generic pipeline:
+
+```txt
+docs/aircraft-end-to-end-asset-workflow.md
+docs/docs/aircraft-end-to-end-asset-workflow.md
+```
+
+Aircraft assets use aircraft-specific folders under `public/images/references/aircraft/<aircraftId>/` and `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`, must save metadata/reports beside each stage, and must map visuals to an `aircraftProfileId`. Do not derive aircraft physics from generated mesh geometry.
+
 The intended single-asset flow is:
 
 ```txt

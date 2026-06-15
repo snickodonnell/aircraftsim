@@ -53,6 +53,28 @@ Flight controls:
 The aircraft mesh is only visual. Flight behavior comes from `src/sim/aero/aircraftProfiles.ts`, especially the aircraft stability derivatives and control-surface limits.
 The bottom-right yoke indicator shows current pitch/roll input and is the first piece of the aircraft control HUD.
 
+## Aircraft Asset Workflow
+
+Before generating or processing aircraft models, read:
+
+```txt
+docs/aircraft-end-to-end-asset-workflow.md
+docs/docs/aircraft-end-to-end-asset-workflow.md
+```
+
+That workflow is the source of truth for aircraft-specific Meshy, Blender, optimization, manifest, and profile work. It supersedes the generic single-object examples below when the asset is an aircraft.
+
+Aircraft workflow rules:
+
+- Do not call Meshy live until explicitly approved.
+- Do not batch-generate aircraft unless explicitly instructed.
+- Place source images under `public/images/references/aircraft/<aircraftId>/`.
+- Save raw, cleaned, and optimized aircraft GLBs under `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`.
+- Runtime aircraft visuals must come from optimized GLBs.
+- Use `aircraftProfileId` to select physics.
+- Do not derive aerodynamic properties from Meshy geometry.
+- Record Meshy metadata, Blender cleanup reports, glTF reports, asset metadata, source notes, assumptions, confidence, and tuning notes.
+
 ## Dry-Run Asset Pipeline
 
 Place a reference image in `public/images/references`, then test the wiring without spending Meshy credits:

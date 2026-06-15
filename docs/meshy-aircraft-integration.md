@@ -1,5 +1,14 @@
 # Meshy Aircraft Integration
 
+Before generating or processing any aircraft model, read:
+
+```txt
+docs/aircraft-end-to-end-asset-workflow.md
+docs/docs/aircraft-end-to-end-asset-workflow.md
+```
+
+The full workflow defines the required aircraft folder layout, metadata files, cleanup reports, profile-source notes, and definition of done.
+
 Meshy aircraft models are visual skins only.
 
 Pipeline:

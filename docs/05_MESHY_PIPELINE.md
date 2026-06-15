@@ -8,6 +8,15 @@ Codex should create scripts that let the user generate 3D assets from reference 
 
 Meshy calls consume credits. Scripts should be explicit and cautious.
 
+For aircraft assets, read these first and follow the aircraft-specific layout and metadata requirements:
+
+```txt
+docs/aircraft-end-to-end-asset-workflow.md
+docs/docs/aircraft-end-to-end-asset-workflow.md
+```
+
+Aircraft generation must not proceed as a generic object pipeline. Aircraft source images live under `public/images/references/aircraft/<aircraftId>/`, raw outputs live under `public/models/raw/aircraft/<aircraftId>/`, and the resulting visual model must be mapped to an `aircraftProfileId`. Do not derive aerodynamic properties from Meshy geometry.
+
 ## Supported workflows
 
 ### Image-to-3D

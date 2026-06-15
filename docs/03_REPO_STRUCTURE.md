@@ -46,11 +46,21 @@ Codex should create or preserve this structure.
 ├─ public/
 │  ├─ images/
 │  │  └─ references/
+│  │     └─ aircraft/
+│  │        └─ <aircraftId>/
+│  │           ├─ source.png
+│  │           └─ notes.md
 │  ├─ references/
 │  └─ models/
 │     ├─ raw/
+│     │  └─ aircraft/
+│     │     └─ <aircraftId>/
 │     ├─ cleaned/
+│     │  └─ aircraft/
+│     │     └─ <aircraftId>/
 │     ├─ optimized/
+│     │  └─ aircraft/
+│     │     └─ <aircraftId>/
 │     └─ collision/
 └─ scripts/
    ├─ meshy/
@@ -86,6 +96,12 @@ Small JSON level definitions.
 
 2D reference images used as Meshy inputs. These are usually `.png` or `.jpg`.
 
+Aircraft references should use the end-to-end aircraft workflow and live under:
+
+```txt
+public/images/references/aircraft/<aircraftId>/
+```
+
 ### `public/references/`
 
 Compatibility placeholder for older scaffold commands. Prefer `public/images/references/`.
@@ -94,13 +110,19 @@ Compatibility placeholder for older scaffold commands. Prefer `public/images/ref
 
 Raw downloads from Meshy. These are not runtime assets.
 
+Aircraft raw outputs should live under `public/models/raw/aircraft/<aircraftId>/` with Meshy task metadata.
+
 ### `public/models/cleaned/`
 
 Blender-cleaned exports. These are not runtime assets unless temporarily debugging.
 
+Aircraft cleaned outputs should live under `public/models/cleaned/aircraft/<aircraftId>/` with a Blender cleanup report.
+
 ### `public/models/optimized/`
 
 Final runtime GLB files loaded by the browser game.
+
+Aircraft optimized runtime outputs should live under `public/models/optimized/aircraft/<aircraftId>/` with a glTF report and asset metadata.
 
 ### `public/models/collision/`
 
