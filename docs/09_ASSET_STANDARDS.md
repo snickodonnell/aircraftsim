@@ -88,6 +88,16 @@ Up = positive Y
 
 If this conflicts with tool output, fix in Blender cleanup and document the convention.
 
+Aircraft-specific convention:
+
+```txt
++X = right wing
++Y = up
+-Z = nose / forward
+```
+
+When an aircraft GLB is imported into Blender for inspection, runtime `-Z` appears as Blender `+Y`. A cleaned aircraft should therefore usually point nose toward Blender `+Y` in top view. Record any baked rotation in the cleanup report.
+
 ## Colliders
 
 Default collider by type:
@@ -152,4 +162,5 @@ Every generated asset should pass this checklist before entering `optimized/`:
 [ ] Collider strategy defined
 [ ] Texture size reasonable
 [ ] GLB inspected/optimized
+[ ] Aircraft assets include Meshy, Blender, glTF, and asset metadata reports
 ```

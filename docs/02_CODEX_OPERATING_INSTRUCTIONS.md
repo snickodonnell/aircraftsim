@@ -73,6 +73,15 @@ Before making scripts that call Meshy:
 
 Do not repeatedly call Meshy just to debug TypeScript syntax.
 
+For aircraft Meshy runs:
+
+- read both aircraft workflow docs before starting
+- run dry-run first
+- create exactly one live task unless explicitly asked for more
+- set command-scoped aircraft output directories if using generic scripts
+- save canonical task/metadata JSON beside the raw GLB
+- do not paste API keys or temporary signed model URLs into Markdown or final reports
+
 ## Blender automation behavior
 
 Codex should prefer repeatable CLI scripts over manual Blender instructions.
@@ -88,6 +97,8 @@ If Blender is not found, support `BLENDER_PATH`.
 Use Python scripts inside `scripts/blender/`.
 
 Do not require GUI interaction for the default cleanup pipeline.
+
+For aircraft cleanup, verify and document the visual orientation. Runtime aircraft forward is local `-Z`; after Blender import, that typically appears as Blender `+Y` in top view.
 
 ## Game code behavior
 
@@ -115,6 +126,7 @@ Important docs:
 - `docs/06_BLENDER_AUTOMATION.md`
 - `docs/07_GLTF_OPTIMIZATION.md`
 - `docs/12_ACCEPTANCE_CHECKLIST.md`
+- `docs/docs/aircraft-end-to-end-asset-workflow.md`
 
 ## Commit hygiene
 

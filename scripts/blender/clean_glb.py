@@ -12,6 +12,9 @@ Arguments after `--`:
   --decimate <float 0..1>           Optional decimate ratio. Omit to skip.
   --origin center|base              Origin placement. Default: base.
   --shade flat|smooth|keep          Shading mode. Default: keep.
+  --rotate-euler-deg <x> <y> <z>  Optional baked orientation rotation in Blender degrees.
+  --report <path>                 Optional JSON cleanup report path.
+  --orientation-note <text>       Optional note recorded in the cleanup report.
   --generate-box-collider true|false Default: false.
 
 Notes:
@@ -20,7 +23,10 @@ Notes:
 """
 
 import argparse
+import json
+import math
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import bpy
@@ -41,6 +47,9 @@ def parse_args():
     parser.add_argument("--decimate", type=float, default=None)
     parser.add_argument("--origin", choices=["center", "base"], default="base")
     parser.add_argument("--shade", choices=["flat", "smooth", "keep"], default="keep")
+    parser.add_argument("--rotate-euler-deg", nargs=3, type=float, default=(0.0, 0.0, 0.0))
+    parser.add_argument("--report", default=None)
+    parser.add_argument("--orientation-note", default="")
     parser.add_argument("--generate-box-collider", choices=["true", "false"], default="false")
     return parser.parse_args(argv)
 
@@ -58,15 +67,21 @@ def import_glb(path: str):
 
 
 def remove_cameras_and_lights(objects):
+    removed = []
     for obj in list(objects):
         if obj.type in {"CAMERA", "LIGHT"}:
+            removed.append(obj.name)
             bpy.data.objects.remove(obj, do_unlink=True)
+    return removed
 
 
 def remove_hidden_junk():
+    removed = []
     for obj in list(bpy.context.scene.objects):
         if obj.hide_get() or obj.hide_viewport:
+            removed.append(obj.name)
             bpy.data.objects.remove(obj, do_unlink=True)
+    return removed
 
 
 def mesh_objects():
@@ -81,6 +96,16 @@ def apply_transforms(scale: float):
         obj.scale = (obj.scale.x * scale, obj.scale.y * scale, obj.scale.z * scale)
         bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
         obj.select_set(False)
+
+
+def apply_orientation_rotation(rotation_degrees):
+    if not any(abs(value) > 0.0001 for value in rotation_degrees):
+        return
+
+    rotation_radians = tuple(math.radians(value) for value in rotation_degrees)
+    rotation_matrix = mathutils.Euler(rotation_radians, "XYZ").to_matrix().to_4x4()
+    for obj in mesh_objects():
+        obj.matrix_world = rotation_matrix @ obj.matrix_world
 
 
 def recalc_normals():
@@ -123,15 +148,19 @@ def shade_meshes(mode):
 
 
 def rename_objects(asset_name):
+    renamed = []
     if not asset_name:
-        return
+        return renamed
     for i, obj in enumerate(mesh_objects()):
+        original = obj.name
         obj.name = f"{asset_name}_mesh_{i:02d}"
+        renamed.append({"from": original, "to": obj.name})
         if obj.data:
             obj.data.name = f"{asset_name}_mesh_data_{i:02d}"
         for j, slot in enumerate(obj.material_slots):
             if slot.material:
                 slot.material.name = f"{asset_name}_mat_{j:02d}"
+    return renamed
 
 
 def combined_bounds(objects):
@@ -201,6 +230,27 @@ def export_glb(path: str):
     )
 
 
+def bounds_report():
+    meshes = mesh_objects()
+    if not meshes:
+        return None
+    min_v, max_v = combined_bounds(meshes)
+    size = (max_v[0] - min_v[0], max_v[1] - min_v[1], max_v[2] - min_v[2])
+    return {
+        "min": [round(value, 5) for value in min_v],
+        "max": [round(value, 5) for value in max_v],
+        "size": [round(value, 5) for value in size],
+    }
+
+
+def write_report(path, report):
+    if not path:
+        return
+    report_path = Path(path)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(f"{json.dumps(report, indent=2)}\n", encoding="utf8")
+
+
 def main():
     args = parse_args()
     input_path = Path(args.input)
@@ -211,19 +261,46 @@ def main():
 
     reset_scene()
     imported = import_glb(str(input_path))
-    remove_cameras_and_lights(imported)
-    remove_hidden_junk()
+    bounds_before = bounds_report()
+    objects_removed = remove_cameras_and_lights(imported)
+    objects_removed.extend(remove_hidden_junk())
+    apply_orientation_rotation(args.rotate_euler_deg)
     apply_transforms(args.scale)
     recalc_normals()
     decimate_meshes(args.decimate)
     shade_meshes(args.shade)
-    rename_objects(args.asset_name)
+    objects_renamed = rename_objects(args.asset_name)
     set_origin(args.asset_name, args.origin)
+    bounds_after = bounds_report()
 
     if args.generate_box_collider == "true":
         generate_box_collider(args.asset_name)
 
     export_glb(str(output_path))
+    write_report(
+        args.report,
+        {
+            "assetName": args.asset_name,
+            "inputPath": str(input_path).replace("\\", "/"),
+            "outputPath": str(output_path).replace("\\", "/"),
+            "createdAt": datetime.now(timezone.utc).isoformat(),
+            "orientationFixed": any(abs(value) > 0.0001 for value in args.rotate_euler_deg),
+            "orientationAppliedEulerDeg": list(args.rotate_euler_deg),
+            "expectedRuntimeForward": "local -Z",
+            "orientationNote": args.orientation_note,
+            "scaleApplied": abs(args.scale - 1.0) > 0.0001,
+            "scale": args.scale,
+            "origin": args.origin,
+            "shade": args.shade,
+            "decimate": args.decimate,
+            "generateBoxCollider": args.generate_box_collider == "true",
+            "boundsBefore": bounds_before,
+            "boundsAfter": bounds_after,
+            "objectsRemoved": objects_removed,
+            "objectsRenamed": objects_renamed,
+            "warnings": [],
+        },
+    )
     print(f"Cleaned GLB exported to: {output_path}")
 
 

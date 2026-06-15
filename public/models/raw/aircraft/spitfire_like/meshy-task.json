@@ -1,0 +1,18 @@
+{
+  "source": "meshy",
+  "workflow": "image-to-3d",
+  "taskId": "019ecba3-65cf-77e8-a3cf-7e9e1f9901bf",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "aircraftId": "spitfire_like",
+  "displayName": "Spitfire-Like Fighter",
+  "sourceImagePath": "public/images/references/aircraft/spitfire_like/source.png",
+  "rawModelPath": "public/models/raw/aircraft/spitfire_like/spitfire_like_raw.glb",
+  "scriptMetadataPath": "public/models/raw/aircraft/spitfire_like/spitfire_like_raw.meshy.json",
+  "createdAt": "2026-06-15T14:18:39Z",
+  "notes": [
+    "One live Meshy image-to-3D task was created for this aircraft.",
+    "Signed Meshy model URLs are not repeated in this canonical task summary.",
+    "The downloaded raw GLB is visual-only and must not be used for aerodynamic calculations."
+  ]
+}

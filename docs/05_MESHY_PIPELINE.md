@@ -17,6 +17,16 @@ docs/docs/aircraft-end-to-end-asset-workflow.md
 
 Aircraft generation must not proceed as a generic object pipeline. Aircraft source images live under `public/images/references/aircraft/<aircraftId>/`, raw outputs live under `public/models/raw/aircraft/<aircraftId>/`, and the resulting visual model must be mapped to an `aircraftProfileId`. Do not derive aerodynamic properties from Meshy geometry.
 
+For aircraft, the generic scripts may need per-command output directory overrides:
+
+```powershell
+$env:ASSET_RAW_DIR='public/models/raw/aircraft/<aircraftId>'
+$env:ASSET_CLEANED_DIR='public/models/cleaned/aircraft/<aircraftId>'
+$env:ASSET_OPTIMIZED_DIR='public/models/optimized/aircraft/<aircraftId>'
+```
+
+Run dry-run first, then create exactly one live task if and only if the user has clearly approved live generation for that aircraft. The live create call is the Meshy credit-spending step; polling and downloading should only operate on the same task id.
+
 ## Supported workflows
 
 ### Image-to-3D
@@ -205,6 +215,13 @@ For every generated model, save metadata:
   "createdAt": "ISO_DATE",
   "notes": []
 }
+```
+
+For aircraft, also save stable canonical summaries that do not repeat temporary signed URLs:
+
+```txt
+public/models/raw/aircraft/<aircraftId>/meshy-task.json
+public/models/raw/aircraft/<aircraftId>/meshy-metadata.json
 ```
 
 ## Implementation notes for Codex

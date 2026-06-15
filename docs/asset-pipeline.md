@@ -9,6 +9,24 @@ docs/docs/aircraft-end-to-end-asset-workflow.md
 
 Aircraft assets use aircraft-specific folders under `public/images/references/aircraft/<aircraftId>/` and `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`, must save metadata/reports beside each stage, and must map visuals to an `aircraftProfileId`. Do not derive aircraft physics from generated mesh geometry.
 
+When using the current generic Meshy scripts for aircraft, set the asset output directories for that command so the scripts do not write to the generic model folders:
+
+```powershell
+$env:ASSET_RAW_DIR='public/models/raw/aircraft/<aircraftId>'
+$env:ASSET_CLEANED_DIR='public/models/cleaned/aircraft/<aircraftId>'
+$env:ASSET_OPTIMIZED_DIR='public/models/optimized/aircraft/<aircraftId>'
+```
+
+Then write canonical stage files beside the generated artifacts:
+
+```txt
+public/models/raw/aircraft/<aircraftId>/meshy-task.json
+public/models/raw/aircraft/<aircraftId>/meshy-metadata.json
+public/models/cleaned/aircraft/<aircraftId>/blender-cleanup-report.json
+public/models/optimized/aircraft/<aircraftId>/gltf-report.json
+public/models/optimized/aircraft/<aircraftId>/asset-metadata.json
+```
+
 The intended single-asset flow is:
 
 ```txt
@@ -35,3 +53,5 @@ npm run asset:build -- --name tiny_test_asset --input public/models/raw/tiny_tes
 Meshy commands are dry-run by default. Add `--live` only after reviewing the scaffold and accepting that the call may consume Meshy credits.
 
 Do not automate batch generation yet. Do not use raw Meshy GLBs directly in the game.
+
+Generated GLBs and Meshy script metadata are currently ignored by `.gitignore`. Mention that in final reports, and use Git LFS or adjust ignore rules when a stable runtime asset must be shared through git.

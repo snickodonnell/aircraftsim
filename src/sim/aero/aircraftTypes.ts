@@ -145,11 +145,40 @@ export type AircraftVisualDefaults = {
   chaseCameraHeight: number;
 };
 
+export type AircraftProfileMode =
+  | 'real_aircraft'
+  | 'inspired_by_real_aircraft'
+  | 'generic_class';
+
+export type SourceConfidence = 'high' | 'medium' | 'low';
+
+export type AircraftProfileSource = {
+  label: string;
+  url?: string;
+  fieldsUsed: string[];
+  confidence: SourceConfidence;
+  notes?: string;
+};
+
+export type AircraftProfileReferenceValue = number | string | boolean | number[] | string[];
+
+export type AircraftProfileMetadata = {
+  profileMode: AircraftProfileMode;
+  sourceConfidence: SourceConfidence;
+  referenceAircraft?: string[];
+  referenceValues?: Record<string, AircraftProfileReferenceValue>;
+  sources: AircraftProfileSource[];
+  assumptions: string[];
+  gameTuningNotes: string[];
+  notHistoricallyExact: boolean;
+};
+
 export type AircraftProfile = {
   id: string;
   displayName: string;
   category: AircraftCategory;
   meshHintNames?: string[];
+  metadata?: AircraftProfileMetadata;
   massKg: number;
   wingAreaM2: number;
   wingspanM: number;

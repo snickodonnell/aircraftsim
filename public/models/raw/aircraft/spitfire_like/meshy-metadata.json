@@ -1,0 +1,25 @@
+{
+  "assetId": "spitfire_like",
+  "aircraftId": "spitfire_like",
+  "displayName": "Spitfire-Like Fighter",
+  "aircraftClass": "ww2_single_engine_fighter",
+  "profileMode": "inspired_by_real_aircraft",
+  "aircraftProfileId": "spitfire_like",
+  "source": "meshy",
+  "workflow": "image-to-3d",
+  "taskId": "019ecba3-65cf-77e8-a3cf-7e9e1f9901bf",
+  "sourceImagePath": "public/images/references/aircraft/spitfire_like/source.png",
+  "rawModelPath": "public/models/raw/aircraft/spitfire_like/spitfire_like_raw.glb",
+  "cleanedModelPath": "public/models/cleaned/aircraft/spitfire_like/spitfire_like_cleaned.glb",
+  "optimizedModelPath": "public/models/optimized/aircraft/spitfire_like/spitfire_like.glb",
+  "scriptMetadataPath": "public/models/raw/aircraft/spitfire_like/spitfire_like_raw.meshy.json",
+  "createdAt": "2026-06-15T14:18:39Z",
+  "visualOnly": true,
+  "physicsSource": "aircraftProfile",
+  "creditsLikelySpent": true,
+  "notes": [
+    "Generated from the single provided source image.",
+    "Do not batch-generate additional aircraft from this metadata.",
+    "Flight physics come from aircraftProfileId, not from the generated mesh."
+  ]
+}

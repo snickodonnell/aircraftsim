@@ -18,12 +18,14 @@ Inspect:
 
 ```bash
 gltf-transform inspect public/models/cleaned/wooden_chest.glb
+npx gltf-transform inspect public/models/cleaned/wooden_chest.glb
 ```
 
 Optimize:
 
 ```bash
 gltf-transform optimize public/models/cleaned/wooden_chest.glb public/models/optimized/wooden_chest.glb --texture-compress webp --texture-size 1024
+npx gltf-transform optimize public/models/cleaned/wooden_chest.glb public/models/optimized/wooden_chest.glb --texture-size 1024
 ```
 
 Inspect final:
@@ -61,6 +63,8 @@ Responsibilities:
 1. Validate input exists.
 2. Run glTF Transform inspect.
 3. Print summary.
+
+On Windows, npm may sometimes pass `--input` through as npm config in a way that wrappers parse as `true`, or a wrapper may hit a nested spawn error. In that case, call the direct `npx gltf-transform inspect ...` or `npx gltf-transform optimize ...` command and record the fallback.
 
 ## Required wrapper: `scripts/assets/validate-asset-paths.ts`
 
@@ -111,3 +115,14 @@ Do not use:
 /models/raw/wooden_chest.glb
 /models/cleaned/wooden_chest.glb
 ```
+
+For aircraft, save a `gltf-report.json` beside the optimized GLB with at least:
+
+- input and output paths
+- optimization command/options
+- input and output byte sizes
+- bounds
+- vertex/triangle summary
+- texture resolution
+- extensions used/required
+- orientation verification note

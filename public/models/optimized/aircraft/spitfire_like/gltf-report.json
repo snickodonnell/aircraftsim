@@ -1,0 +1,42 @@
+{
+  "assetId": "spitfire_like",
+  "aircraftId": "spitfire_like",
+  "inputPath": "public/models/cleaned/aircraft/spitfire_like/spitfire_like_cleaned.glb",
+  "outputPath": "public/models/optimized/aircraft/spitfire_like/spitfire_like.glb",
+  "createdAt": "2026-06-15T14:26:11Z",
+  "tool": "gltf-transform optimize",
+  "options": {
+    "textureSize": 1024
+  },
+  "sizeBytes": {
+    "cleanedInput": 3547928,
+    "optimizedOutput": 259012
+  },
+  "inspectSummary": {
+    "version": "2.0",
+    "generator": "glTF-Transform v4.4.0",
+    "extensionsUsed": ["EXT_meshopt_compression", "KHR_mesh_quantization"],
+    "extensionsRequired": ["EXT_meshopt_compression", "KHR_mesh_quantization"],
+    "bboxMin": [-5.6229, -1.95095, -4.79165],
+    "bboxMax": [5.6229, 1.95095, 4.79165],
+    "renderVertexCount": 29139,
+    "uploadVertexCount": 9125,
+    "meshPrimitives": 1,
+    "triangles": 9713,
+    "textureResolution": "1024x1024",
+    "animations": 0
+  },
+  "orientation": {
+    "runtimeForward": "local -Z",
+    "verified": true,
+    "verificationNotes": [
+      "Raw Meshy GLB imported into Blender with the nose along Blender local -X.",
+      "Cleanup baked a -90 degree Blender Z rotation.",
+      "A glTF sign test confirmed runtime -Z imports into Blender as +Y; cleaned top view points nose to Blender +Y."
+    ]
+  },
+  "notes": [
+    "Optimized runtime GLB is the only model path used by the game manifest.",
+    "Mesh geometry was not used to derive aerodynamic data."
+  ]
+}

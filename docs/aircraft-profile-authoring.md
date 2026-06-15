@@ -8,6 +8,7 @@ Each `AircraftProfile` includes:
 
 - `id`, `displayName`, `category`
 - `meshHintNames` for optional visual-name matching
+- optional `metadata` for profile mode, source URLs, assumptions, confidence, reference values, and game-tuning notes
 - `massKg`, `wingAreaM2`, `wingspanM`, `meanChordM`, `referenceLengthM`
 - `inertiaTensorApprox` as `[ixx, iyy, izz]`
 - `engine`
@@ -22,6 +23,21 @@ Each `AircraftProfile` includes:
 - `spawn`
 - `visual`
 - `tuningNotes`
+
+## Profile Metadata
+
+Use `metadata` for every real, inspired-by, or generic aircraft profile that is intended for gameplay:
+
+- `profileMode`: `real_aircraft`, `inspired_by_real_aircraft`, or `generic_class`
+- `sourceConfidence`: `high`, `medium`, or `low`
+- `referenceAircraft`: real aircraft used as references, when applicable
+- `referenceValues`: researched or assumed values used to set the game profile
+- `sources`: labels, URLs, fields used, confidence, and notes
+- `assumptions`: decisions that are not directly sourced
+- `gameTuningNotes`: why values were adjusted for playability
+- `notHistoricallyExact`: `true` for inspired-by and game-tuned profiles
+
+Do not silently present a game-tuned profile as historical truth. If values are based on reference ranges, say so in metadata.
 
 ## Baseline Aero Fields
 
@@ -140,6 +156,8 @@ Spitfire-like:
 - Use `spitfire_like` as a starting point.
 - Add Meshy hints such as `spitfire`, `ww2_spitfire`, or `spitfire_mk_i`.
 - Tune for feel; do not claim historical perfection unless real data and validation are added later.
+- Store source URLs and assumptions in `metadata.sources`, `metadata.referenceValues`, and `metadata.assumptions`.
+- Use real-world dimensions and performance as reference ranges, but keep thrust, damping, stall blend, and control response game-tuned.
 
 Run profile tests after edits:
 

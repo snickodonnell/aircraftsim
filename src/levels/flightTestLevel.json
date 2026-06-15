@@ -1,11 +1,11 @@
 {
   "id": "flight_test",
   "name": "Flight Test Range",
-  "aircraftProfileId": "generic_trainer",
+  "aircraftProfileId": "spitfire_like",
   "spawn": {
-    "position": [0, 260, 0],
+    "position": [0, 430, 0],
     "rotationEulerDeg": [0, 0, 0],
-    "initialSpeedMps": 42
+    "initialSpeedMps": 88
   },
   "environment": {
     "groundAltitudeM": 0,

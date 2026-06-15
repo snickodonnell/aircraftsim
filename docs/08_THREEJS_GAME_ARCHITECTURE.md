@@ -115,6 +115,23 @@ export const assetManifest: Record<AssetId, AssetDefinition> = {
 };
 ```
 
+For aircraft visuals, extend the manifest with explicit data-driven mapping:
+
+```ts
+{
+  id: 'spitfire_like',
+  name: 'Spitfire-Like Fighter',
+  runtimePath: '/models/optimized/aircraft/spitfire_like/spitfire_like.glb',
+  aircraftId: 'spitfire_like',
+  aircraftProfileId: 'spitfire_like',
+  referenceImagePath: '/images/references/aircraft/spitfire_like/source.png',
+  visualOnly: true,
+  colliderType: 'none',
+}
+```
+
+The flight scene should resolve the visual by `aircraftProfileId` and keep physics in the aircraft profile. Keep a simple geometry visual as fallback when a profile has no optimized GLB yet.
+
 ## Level data
 
 `src/levels/level01.json` can define simple placements:

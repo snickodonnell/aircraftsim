@@ -174,15 +174,18 @@ This aircraft-specific workflow overrides generic single-object asset examples w
 Required aircraft-specific rules:
 
 - Do not make a live Meshy call until the user explicitly approves it.
+- Run the Meshy dry-run path before the live create call; the live create call is the likely credit-spending step.
 - Do not batch-generate aircraft unless explicitly instructed.
 - Use a stable lowercase snake-case `aircraftId`.
 - Store source images under `public/images/references/aircraft/<aircraftId>/`.
 - Store raw, cleaned, and optimized aircraft models under `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`.
+- If generic Meshy scripts are used, set command-scoped `ASSET_RAW_DIR`, `ASSET_CLEANED_DIR`, and `ASSET_OPTIMIZED_DIR` to those aircraft folders.
 - Ensure the cleaned visual model follows the project aircraft frame: `+X` right wing, `+Y` up, `-Z` nose/forward.
 - Save Meshy metadata, Blender cleanup reports, glTF inspection reports, and asset metadata next to the generated aircraft files.
 - Wire runtime visuals through an aircraft asset manifest or the existing project equivalent.
 - Map the visual model to `aircraftProfileId`; the mesh must not determine flight physics.
 - If creating or updating an aircraft profile, label it as `real_aircraft`, `inspired_by_real_aircraft`, or `generic_class` and record sources, assumptions, confidence, and game-tuning notes.
+- Report whether generated GLBs are ignored by git and need Git LFS or ignore-rule changes before sharing.
 - Do not let the 3D asset pipeline modify the aerodynamics engine architecture.
 
 ---

@@ -53,6 +53,9 @@ Optional args:
 --decimate <float 0..1>
 --origin center|base
 --shade flat|smooth|keep
+--rotate-euler-deg <x> <y> <z>
+--report <path>
+--orientation-note <text>
 --generate-box-collider true|false
 ```
 
@@ -65,15 +68,27 @@ The script should do these in order:
 3. Remove imported cameras unless `--keep-cameras` is added later.
 4. Remove imported lights unless `--keep-lights` is added later.
 5. Select imported mesh objects.
-6. Apply scale/rotation transforms.
-7. Normalize scale if `--scale` is provided.
-8. Recalculate normals outside.
-9. Rename objects.
-10. Optionally decimate meshes.
-11. Optionally shade flat or smooth.
-12. Set origin to center or base.
-13. Optionally generate simple collision helper.
-14. Export output GLB.
+6. Apply explicit orientation rotation if `--rotate-euler-deg` is provided.
+7. Apply scale/rotation transforms.
+8. Normalize scale if `--scale` is provided.
+9. Recalculate normals outside.
+10. Rename objects.
+11. Optionally decimate meshes.
+12. Optionally shade flat or smooth.
+13. Set origin to center or base.
+14. Optionally generate simple collision helper.
+15. Export output GLB.
+16. Write JSON cleanup report if `--report` is provided.
+
+For aircraft, always verify the cleaned orientation against the project frame:
+
+```txt
++X = right wing
++Y = up
+-Z = nose / forward
+```
+
+Blender's glTF importer maps runtime `-Z` to Blender `+Y`. When inspecting a cleaned aircraft in Blender, the nose should usually point toward Blender `+Y` from top view.
 
 ## Object naming
 
@@ -146,6 +161,7 @@ After automated cleanup, the user may open the cleaned GLB in Blender and check:
 
 - scale
 - origin
+- aircraft nose / forward axis
 - silhouette
 - texture assignment
 - normals

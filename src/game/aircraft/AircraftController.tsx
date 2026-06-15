@@ -1,6 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
+import { useGLTF } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { Euler, Mesh, Quaternion, Vector3 } from 'three';
+import {
+  getAssetDefinitionForAircraftProfileId,
+  type AssetDefinition,
+} from '../../assets/assetManifest';
 import {
   computeFlightForces,
   createInitialAircraftState,
@@ -27,6 +32,55 @@ type AircraftControllerProps = {
   aircraftProfileId?: AircraftProfileId;
   level?: FlightTestLevel;
 };
+
+type AircraftRuntimeVisualProps = {
+  asset: AssetDefinition;
+  profile: AircraftProfile;
+  position: Vector3;
+  quaternion: Quaternion;
+};
+
+function degreesToRadians(degrees: number) {
+  return (degrees * Math.PI) / 180;
+}
+
+function AircraftRuntimeVisual({
+  asset,
+  profile,
+  position,
+  quaternion,
+}: AircraftRuntimeVisualProps) {
+  const gltf = useGLTF(asset.runtimePath);
+  const scene = useMemo(() => {
+    const clone = gltf.scene.clone(true);
+    clone.traverse((object) => {
+      if (object instanceof Mesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    return clone;
+  }, [gltf.scene]);
+  const modelRotation = useMemo(
+    () =>
+      new Euler(
+        degreesToRadians(profile.visual.modelRotationEulerDeg[0]),
+        degreesToRadians(profile.visual.modelRotationEulerDeg[1]),
+        degreesToRadians(profile.visual.modelRotationEulerDeg[2]),
+      ),
+    [profile.visual.modelRotationEulerDeg],
+  );
+
+  return (
+    <group position={position} quaternion={quaternion}>
+      <primitive
+        object={scene}
+        rotation={modelRotation}
+        scale={profile.visual.modelScale}
+      />
+    </group>
+  );
+}
 
 function buildProfileForLevel(profile: AircraftProfile, level: FlightTestLevel): AircraftProfile {
   return {
@@ -78,6 +132,10 @@ export function AircraftController({
   const profile = useMemo(
     () => buildProfileForLevel(getAircraftProfile(aircraftProfileId), level),
     [aircraftProfileId, level],
+  );
+  const visualAsset = useMemo(
+    () => getAssetDefinitionForAircraftProfileId(profile.id),
+    [profile.id],
   );
   const environment = useMemo(() => buildEnvironment(level), [level]);
   const initialState = useMemo(() => createInitialAircraftState(profile), [profile]);
@@ -154,12 +212,21 @@ export function AircraftController({
 
   return (
     <>
-      <GenericTestAircraft
-        position={renderState.positionWorld}
-        quaternion={renderState.orientation}
-        throttle={input.throttle}
-        dihedralDeg={profile.wing.dihedralDeg}
-      />
+      {visualAsset ? (
+        <AircraftRuntimeVisual
+          asset={visualAsset}
+          profile={profile}
+          position={renderState.positionWorld}
+          quaternion={renderState.orientation}
+        />
+      ) : (
+        <GenericTestAircraft
+          position={renderState.positionWorld}
+          quaternion={renderState.orientation}
+          throttle={input.throttle}
+          dihedralDeg={profile.wing.dihedralDeg}
+        />
+      )}
       <AircraftCameraRig
         aircraftPosition={renderState.positionWorld}
         aircraftQuaternion={renderState.orientation}

@@ -56,6 +56,7 @@ Codex must verify this checklist before considering the scaffold complete.
 [ ] Meshy scripts validate input image paths
 [ ] Meshy scripts save metadata
 [ ] Meshy scripts do not print API keys
+[ ] Aircraft Meshy runs can write to public/models/raw/aircraft/<aircraftId>/ via command-scoped directory settings
 ```
 
 ## Blender scripts
@@ -68,6 +69,8 @@ Codex must verify this checklist before considering the scaffold complete.
 [ ] clean_glb.py exports GLB
 [ ] clean_glb.py includes usage comments
 [ ] Blender command can be run manually if Blender is installed
+[ ] clean_glb.py can bake an explicit orientation rotation
+[ ] clean_glb.py can write a cleanup report
 ```
 
 ## Asset optimization
@@ -78,6 +81,7 @@ Codex must verify this checklist before considering the scaffold complete.
 [ ] scripts/assets/validate-asset-paths.ts exists
 [ ] asset optimization writes to public/models/optimized/
 [ ] asset manifest points only to /models/optimized/
+[ ] aircraft optimization writes glTF report and asset metadata beside the optimized GLB
 ```
 
 ## Folders
@@ -110,16 +114,22 @@ Before claiming any generated aircraft is complete:
 
 ```txt
 [ ] Source image is under public/images/references/aircraft/<aircraftId>/
+[ ] Source image has notes.md describing visual-only use and intended profile
+[ ] Meshy dry-run was executed before live create
+[ ] Exactly one live Meshy create task was made for this aircraft
 [ ] Raw GLB and Meshy metadata are under public/models/raw/aircraft/<aircraftId>/
 [ ] Cleaned GLB and Blender cleanup report are under public/models/cleaned/aircraft/<aircraftId>/
 [ ] Optimized GLB, glTF report, and asset metadata are under public/models/optimized/aircraft/<aircraftId>/
 [ ] Runtime manifest maps the visual asset to aircraftProfileId
+[ ] Flight test scene or selector can load the aircraft by aircraftProfileId
 [ ] Aircraft profile exists or is intentionally mapped to an existing profile
 [ ] Profile mode is recorded as real_aircraft, inspired_by_real_aircraft, or generic_class
 [ ] Profile sources, assumptions, confidence, and tuning notes are recorded
 [ ] Mesh geometry is not used as aerodynamic truth
 [ ] Visual nose is oriented along aircraft local -Z
+[ ] Browser smoke check confirms the optimized GLB loads and renders
 [ ] Build and tests pass
+[ ] Final report says whether generated GLBs are ignored by git and whether Meshy credits were spent
 ```
 
 ## Final manual notes

@@ -1,0 +1,64 @@
+{
+  "assetName": "spitfire_like",
+  "aircraftId": "spitfire_like",
+  "displayName": "Spitfire-Like Fighter",
+  "inputPath": "public/models/raw/aircraft/spitfire_like/spitfire_like_raw.glb",
+  "outputPath": "public/models/cleaned/aircraft/spitfire_like/spitfire_like_cleaned.glb",
+  "createdAt": "2026-06-15T14:23:53.267594+00:00",
+  "orientationFixed": true,
+  "orientationAppliedEulerDeg": [
+    0.0,
+    0.0,
+    -90.0
+  ],
+  "expectedRuntimeForward": "local -Z",
+  "orientationNote": "Raw Meshy import had nose along Blender local -X; baked -90 deg Z rotation so exported runtime aircraft nose follows project local -Z forward.",
+  "scaleApplied": true,
+  "scale": 5.9,
+  "origin": "center",
+  "shade": "smooth",
+  "decimate": null,
+  "generateBoxCollider": false,
+  "boundsBefore": {
+    "min": [
+      -0.81213,
+      -0.95303,
+      -0.33072
+    ],
+    "max": [
+      0.81213,
+      0.95303,
+      0.33072
+    ],
+    "size": [
+      1.62427,
+      1.90607,
+      0.66145
+    ]
+  },
+  "boundsAfter": {
+    "min": [
+      -5.6229,
+      -4.79159,
+      -1.95127
+    ],
+    "max": [
+      5.6229,
+      4.79159,
+      1.95127
+    ],
+    "size": [
+      11.24579,
+      9.58317,
+      3.90254
+    ]
+  },
+  "objectsRemoved": [],
+  "objectsRenamed": [
+    {
+      "from": "Mesh_0",
+      "to": "spitfire_like_mesh_00"
+    }
+  ],
+  "warnings": []
+}

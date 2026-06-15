@@ -107,6 +107,14 @@ The flight test scene uses a custom aircraft simulation state and does not use R
 
 Optimized GLBs from `public/models/optimized` can be attached as visual models later. The selected `aircraftProfileId` controls physics; `runtimePath` controls visuals.
 
+When adding generated aircraft:
+
+- Resolve the optimized GLB through the asset manifest by explicit `aircraftProfileId`.
+- Keep the geometry-only aircraft visual as a fallback for profiles without a runtime asset.
+- Store real-world reference sources, assumptions, confidence, and game-tuning notes in the aircraft profile metadata.
+- Do not use apparent generated wingspan, silhouette, tail size, dihedral, collider shape, or triangle geometry to set aerodynamic coefficients.
+- Verify the visual orientation separately: project aircraft forward is local `-Z`.
+
 ## Dihedral And Spiral Stability
 
 Aircraft profiles include a `wing` block with `dihedralDeg`, `incidenceDeg`, `dihedralEffectiveness`, `bankStabilityEffectiveness`, and `surfaceLiftShare`.

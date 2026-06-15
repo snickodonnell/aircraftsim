@@ -35,7 +35,7 @@ npm run preview
 npm run typecheck
 ```
 
-The default scene is now a flight-test range: a data-driven generic trainer aircraft, simple geometry visual skin, derivative-based custom aerodynamic simulation, chase camera, yoke indicator, and debug HUD.
+The default scene is now a flight-test range: a data-driven aircraft selected by `src/levels/flightTestLevel.json`, derivative-based custom aerodynamic simulation, chase camera, yoke indicator, and debug HUD. Profiles with optimized GLBs load their runtime visual through `src/assets/assetManifest.ts`; profiles without one fall back to the simple geometry test aircraft.
 
 Flight controls:
 
@@ -67,10 +67,12 @@ That workflow is the source of truth for aircraft-specific Meshy, Blender, optim
 Aircraft workflow rules:
 
 - Do not call Meshy live until explicitly approved.
+- Run the Meshy dry-run path first; a live create call is the likely credit-spending step.
 - Do not batch-generate aircraft unless explicitly instructed.
 - Place source images under `public/images/references/aircraft/<aircraftId>/`.
 - Save raw, cleaned, and optimized aircraft GLBs under `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`.
 - Runtime aircraft visuals must come from optimized GLBs.
+- Fix/verify aircraft visual orientation during Blender cleanup: `+X` right wing, `+Y` up, `-Z` nose/forward.
 - Use `aircraftProfileId` to select physics.
 - Do not derive aerodynamic properties from Meshy geometry.
 - Record Meshy metadata, Blender cleanup reports, glTF reports, asset metadata, source notes, assumptions, confidence, and tuning notes.
@@ -105,11 +107,15 @@ npm run asset:validate -- --allow-missing
 
 Runtime models must be loaded only from `public/models/optimized`.
 
+For aircraft, prefer the aircraft-specific workflow and folder layout. If using the current generic Meshy scripts, set `ASSET_RAW_DIR`, `ASSET_CLEANED_DIR`, and `ASSET_OPTIMIZED_DIR` to `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>` for that command, then write the canonical stage metadata files beside the generated GLBs.
+
 ## Generated Asset Git Policy
 
 Generated raw, cleaned, optimized, and collision GLB files are ignored during early development. This keeps the repo light while Meshy/Blender settings are still changing. The tradeoff is that optimized runtime assets will not travel with Git until you remove those ignore rules or move stable assets into Git LFS.
 
 Meshy metadata files in `public/models/raw/*.meshy.json` are also ignored because live responses can include temporary signed asset URLs.
+
+Aircraft JSON reports such as `meshy-task.json`, `meshy-metadata.json`, `blender-cleanup-report.json`, `gltf-report.json`, and `asset-metadata.json` are intended to be committed. The corresponding GLBs may still be ignored until Git LFS or ignore rules are updated.
 
 ## Manual Setup Still Required
 

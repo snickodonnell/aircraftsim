@@ -112,17 +112,41 @@ Raw downloads from Meshy. These are not runtime assets.
 
 Aircraft raw outputs should live under `public/models/raw/aircraft/<aircraftId>/` with Meshy task metadata.
 
+Expected aircraft raw files:
+
+```txt
+<aircraftId>_raw.glb
+<assetName>.meshy.json
+meshy-task.json
+meshy-metadata.json
+```
+
 ### `public/models/cleaned/`
 
 Blender-cleaned exports. These are not runtime assets unless temporarily debugging.
 
 Aircraft cleaned outputs should live under `public/models/cleaned/aircraft/<aircraftId>/` with a Blender cleanup report.
 
+Expected aircraft cleaned files:
+
+```txt
+<aircraftId>_cleaned.glb
+blender-cleanup-report.json
+```
+
 ### `public/models/optimized/`
 
 Final runtime GLB files loaded by the browser game.
 
 Aircraft optimized runtime outputs should live under `public/models/optimized/aircraft/<aircraftId>/` with a glTF report and asset metadata.
+
+Expected aircraft optimized files:
+
+```txt
+<aircraftId>.glb
+gltf-report.json
+asset-metadata.json
+```
 
 ### `public/models/collision/`
 

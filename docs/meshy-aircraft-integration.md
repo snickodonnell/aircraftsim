@@ -18,7 +18,7 @@ reference image
 -> Meshy raw GLB
 -> Blender cleanup
 -> glTF Transform optimization
--> public/models/optimized/*.glb
+-> public/models/optimized/aircraft/<aircraftId>/<aircraftId>.glb
 -> assetManifest.ts visual entry
 -> aircraftProfileId selects physics
 ```
@@ -48,6 +48,8 @@ If a Meshy model visually looks like a Spitfire, the game should still use an ex
 
 Explicit `aircraftProfileId` wins. If it is absent, profile resolution may use `assetId`, display name, or `meshHintNames`, then falls back to `generic_trainer`.
 
+In the current flight test scene, use the manifest to resolve the optimized aircraft visual by `aircraftProfileId`, and keep the simple geometry aircraft as a fallback for profiles without runtime GLBs.
+
 Future asset metadata should include:
 
 - `aircraftProfileId`: required for real gameplay assets.
@@ -56,6 +58,16 @@ Future asset metadata should include:
 - `modelRotationEulerDeg` or `rotation`: visual-only orientation correction.
 - `meshHintNames`: optional fallback hints.
 - `notes`: any hand-authored cleanup or profile-tuning reminders.
+
+Stage metadata should also exist beside the files:
+
+- `public/models/raw/aircraft/<aircraftId>/meshy-task.json`
+- `public/models/raw/aircraft/<aircraftId>/meshy-metadata.json`
+- `public/models/cleaned/aircraft/<aircraftId>/blender-cleanup-report.json`
+- `public/models/optimized/aircraft/<aircraftId>/gltf-report.json`
+- `public/models/optimized/aircraft/<aircraftId>/asset-metadata.json`
+
+Orientation must be verified after Blender cleanup. Runtime aircraft forward is local `-Z`; in Blender top-view inspection that usually appears as the nose pointing toward Blender `+Y`.
 
 ## Naming Guidance
 

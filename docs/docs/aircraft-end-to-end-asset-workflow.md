@@ -276,6 +276,14 @@ If the repo has a dry-run mode, Codex should run dry-run first.
 
 Codex should not batch-generate multiple aircraft unless explicitly instructed.
 
+Operational notes from the first `spitfire_like` run:
+
+* Treat an unambiguous user request to "generate one raw GLB" as approval for exactly one live Meshy create call for that aircraft only, after confirming the image exists and running the dry-run path.
+* Meshy task creation is the credit-spending step. Polling and downloading the same task should not create another task, but still require network access.
+* Existing Meshy scripts may default to generic `public/models/raw` output folders. For aircraft, set `ASSET_RAW_DIR`, `ASSET_CLEANED_DIR`, and `ASSET_OPTIMIZED_DIR` for the command, or otherwise ensure outputs land under `public/models/{raw,cleaned,optimized}/aircraft/<aircraftId>/`.
+* Save both the script metadata (`<assetName>.meshy.json`) and the canonical workflow files (`meshy-task.json`, `meshy-metadata.json`). Do not repeat temporary signed Meshy asset URLs in public summaries.
+* A multi-view reference sheet can still be used with the single image-to-3D pipeline if the user asked for image-to-3D and only provided one image. Do not split or batch-generate unless explicitly requested.
+
 ---
 
 # 7. Blender Cleanup
@@ -346,6 +354,14 @@ The report should include:
 }
 ```
 
+Orientation notes:
+
+* The game/runtime aircraft frame is `+X` right wing, `+Y` up, and `-Z` nose/forward.
+* Blender's glTF importer maps runtime `-Z` into Blender `+Y`. A correctly oriented aircraft will usually show its nose pointing toward Blender `+Y` in a top view after import.
+* Meshy aircraft may arrive with nose along Blender `+X` or `-X` and up along Blender `+Z`. Render or inspect axis views before choosing the rotation.
+* Record the raw orientation, baked cleanup rotation, and verification method in `blender-cleanup-report.json`.
+* This orientation check is visual/runtime preparation only. It must not be used to derive aerodynamic properties.
+
 ---
 
 # 8. GLB Optimization
@@ -380,6 +396,11 @@ Codex should write:
 public/models/optimized/aircraft/<aircraftId>/gltf-report.json
 public/models/optimized/aircraft/<aircraftId>/asset-metadata.json
 ```
+
+Windows/npm notes:
+
+* If `npm run asset:inspect -- --input ...` or `npm run asset:optimize -- --input ...` mis-parses arguments, call the underlying tool directly with `npx gltf-transform inspect ...` or `npx gltf-transform optimize ...`.
+* If a TypeScript wrapper fails with a Windows spawn error, use the same underlying glTF Transform CLI command and record that fallback in the final report.
 
 Recommended `asset-metadata.json`:
 
@@ -436,6 +457,8 @@ export const aircraftAssets = {
 
 If the manifest already exists, Codex should preserve existing entries and append the new aircraft.
 
+For this repo, the existing equivalent is `src/assets/assetManifest.ts`. Add aircraft fields such as `aircraftId`, `aircraftProfileId`, `referenceImagePath`, and `visualOnly` there rather than creating a second manifest unless the codebase has already moved to one.
+
 ---
 
 # 10. Aerodynamic Profile Creation
@@ -449,6 +472,8 @@ aircraftProfileId
 This document does not define the exact aero framework fields because the project already has an aerodynamics framework.
 
 Codex should inspect the existing profile type and populate the appropriate fields.
+
+If the existing profile type supports metadata, store source URLs, assumptions, confidence, profile mode, and game-tuning notes directly on the profile. If it does not, add a small optional metadata block or use the existing aircraft profile sources file pattern.
 
 The profile should be based on one of these modes:
 
@@ -668,6 +693,17 @@ Expected runtime behavior:
 
 The aircraft model must not calculate physics from its mesh geometry.
 
+For the current React flight test scene, the stable pattern is:
+
+```txt
+src/assets/assetManifest.ts maps aircraftProfileId -> optimized runtimePath
+AircraftController resolves visual asset by profile id
+FlightTestLevel selects aircraftProfileId
+AircraftProfile remains the physics source
+```
+
+Keep the geometry-only test aircraft as a fallback for profiles that do not yet have optimized GLBs.
+
 ---
 
 # 14. Example Codex Prompt
@@ -791,6 +827,17 @@ A processed aircraft is complete when:
 [ ] Mesh geometry is not used for aero calculations
 [ ] Build passes
 [ ] Tests pass, if applicable
+```
+
+Additional verification learned from the first processed aircraft:
+
+```txt
+[ ] Dry-run Meshy command was run before the live create call
+[ ] Exactly one live Meshy create task was made for the requested aircraft
+[ ] Orientation was checked visually or with an axis/sign test after cleanup
+[ ] glTF optimization report includes size, bounds, triangle/vertex summary, texture size, and required extensions
+[ ] Browser smoke check confirms the optimized GLB loads in the flight scene
+[ ] Final report states whether generated GLBs are ignored by git and need Git LFS or .gitignore changes before sharing
 ```
 
 ---
